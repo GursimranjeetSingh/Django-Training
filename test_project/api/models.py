@@ -5,7 +5,7 @@ from django.db import models
 
 class Car(models.Model):
     id=models.AutoField(primary_key=True)
-    name=models.CharField(max_length=100)
+    name=models.CharField(max_length=100,unique=True)
     car_color=models.CharField(max_length=100,default='red')    
     price=models.IntegerField(default=10000)
     company=models.CharField(max_length=100,default='company')
@@ -17,6 +17,12 @@ class Car(models.Model):
     relase_date=models.DateField(default='2021-01-01')
     realease_time=models.TimeField(default='00:00:00')
     datetieme=models.DateTimeField(default='2021-01-01 00:00:00')
+    
+    class Meta:
+        ordering=['-name','-car_color']
+        
+    def __str__(self):
+        return self.car_color
     
     
 

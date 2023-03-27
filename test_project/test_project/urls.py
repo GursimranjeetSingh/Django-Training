@@ -11,7 +11,8 @@ router.register('car',TestViewSet,'This is a test api')
 
 
 urlpatterns = [
-    path("",include(router.urls))  
+    path("",include(router.urls)),
+    path('admin/', admin.site.urls),
 ]
 
 
