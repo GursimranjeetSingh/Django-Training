@@ -38,6 +38,12 @@ class Driver(models.Model):
     
     
 
+class Bike(models.Model):
+    name=models.CharField(max_length=100)
+    color=models.CharField(max_length=100,blank=True,null=True)
+    model=models.CharField(max_length=100,blank=True,null=True)
+    
+
 
     
 #models.Cascade
