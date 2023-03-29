@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Car,Bike
+from .models import Car,Bike, A, B
 
 
 
@@ -17,3 +17,16 @@ class BikeSerializer(serializers.ModelSerializer):
         fields=['name','color','model']
         # exclude=['id']
     
+    
+    
+    
+class ASerializer(serializers.ModelSerializer):
+    class Meta:
+        model=A
+        fields='__all__'
+        
+
+class BSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=B
+        fields='__all__'

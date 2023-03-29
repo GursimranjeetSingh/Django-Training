@@ -43,7 +43,16 @@ class Bike(models.Model):
     color=models.CharField(max_length=100,blank=True,null=True)
     model=models.CharField(max_length=100,blank=True,null=True)
     
+    
 
+class B(models.Model):
+    name=models.CharField(max_length=100)
+
+
+class A(models.Model):
+    name=models.CharField(max_length=100)
+    b_values=models.ManyToManyField(B)
+    
 
     
 #models.Cascade

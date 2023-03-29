@@ -1,22 +1,27 @@
 from rest_framework.viewsets import ViewSet,ModelViewSet
 from rest_framework.response import Response
-from .models import Car,Bike
-from .serializer import CarSerializer,BikeSerializer
+from .models import Car,Bike,A,B
+from .serializer import CarSerializer,BikeSerializer,ASerializer,BSerializer
 
 from django.db.models import Q
+from rest_framework.decorators import action
 
 
 
+
+
+        
+        
+    
+class BViewSet(ModelViewSet):
+    queryset=B.objects.all()
+    serializer_class=BSerializer
 
 class BikeViewSet(ModelViewSet):
     queryset=Bike.objects.all()
     serializer_class=BikeSerializer
 
         
-    
-    
-   
-
 
 class TestViewSet(ViewSet):
     
