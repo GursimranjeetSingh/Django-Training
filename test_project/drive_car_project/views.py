@@ -5,12 +5,42 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 
 from rest_framework.response import Response
+from rest_framework import filters
 
 
 
 class CarViewSet(ModelViewSet):
     queryset=Car.objects.all()
     serializer_class=CarSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields=['name','color']
+    
+    
+    def list(self, request, *args, **kwargs):
+        # self.get_queryset()
+        # self.get_serializer()
+        # self.filter_queryset()
+        # self.paginte_queryset()
+        
+        # querset=Car.objects.all()  # 
+        querset=self.get_queryset()
+
+
+        queryset=self.filter_queryset(querset)
+        
+        # serializers=CarSerializer(queryset,many=True)
+        serializers=self.get_serializer(queryset,many=True)
+        
+        
+        
+        data=serializers.data
+        
+        data={
+            'data':data,
+            'status':True,
+        }
+        
+        return Response(data)
     
     
 class DriverViewSet(ModelViewSet):
@@ -29,3 +59,10 @@ class DriverViewSet(ModelViewSet):
             'driver_car':driver_car
         }
         return Response(data)
+    
+    
+    
+#search fields
+#get queryset
+#get serializer
+# get filter backends
