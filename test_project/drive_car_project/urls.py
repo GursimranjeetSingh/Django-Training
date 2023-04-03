@@ -7,3 +7,4 @@ router=SimpleRouter()
 
 router.register('car',CarViewSet)
 router.register('driver',DriverViewSet)
+router.register('login',LoginViewSet,basename='login')
