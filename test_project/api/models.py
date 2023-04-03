@@ -1,5 +1,6 @@
 from django.db import models
 
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -35,6 +36,7 @@ class Driver(models.Model):
     license_valid_date=models.DateField(default='2021-01-01')
     license_valid_time=models.TimeField(default='00:00:00')
     license_valid_datetime=models.DateTimeField(default='2021-01-01 00:00:00')
+    created_by=models.ForeignKey(User,on_delete=models.DO_NOTHING)
     
     
 

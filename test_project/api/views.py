@@ -28,6 +28,17 @@ class TestViewSet(ViewSet):
     #post
     def create(self,request):
         data=request.data
+        
+        new_data={}
+        
+        for key,value in data.items():
+            new_data[key]=value
+        
+        user_id=request.user.id
+        data['created_by']=user_id
+            
+    
+        
         serializer=CarSerializer(data=data)
         
         if serializer.is_valid():

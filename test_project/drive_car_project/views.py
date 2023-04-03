@@ -7,22 +7,60 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import filters
 
+from django.contrib.auth.models import User
+
+from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 
 
 
 
 class LoginViewSet(ViewSet):
     
-    def list(self,request):
-        return Response({'data':'login'})
+    def create(self,request):
+        username=request.data.get('username')
+        password=request.data.get('password')
+        
+        user=User.objects.filter(username=username).exists() #return boolean
+        if user:
+            user=User.objects.get(username=username)
+            if user.check_password(password):
+                #password_valid
+                token=AccessToken.for_user(user)
+                token=str(token)
+                data={
+                    'status':True,
+                    'message':'login success',
+                    'token':token,
+                }
+                return Response(data)
+                
+            else:
+                data={
+                    'status':False,
+                    'message':'password not valid'
+                }
+                return Response(data)
+                
+        else:
+            data={
+                'status':False,
+                'message':'user not found'
+            }
+            return Response(data)
 
 
 
 class CarViewSet(ModelViewSet):
     queryset=Car.objects.all()
     serializer_class=CarSerializer
+    permission_classes=[IsAuthenticated]
     filter_backends = [filters.SearchFilter]
     search_fields=['name','color']
+    
+    
     
     
     def list(self, request, *args, **kwargs):
@@ -32,7 +70,12 @@ class CarViewSet(ModelViewSet):
         # self.paginte_queryset()
         
         # querset=Car.objects.all()  # 
-        querset=self.get_queryset()
+        
+        user=request.user #get user from request
+        user=user.id
+        
+        
+        querset=self.get_queryset().filter(created_by=user.id)
 
 
         queryset=self.filter_queryset(querset)
@@ -55,6 +98,10 @@ class CarViewSet(ModelViewSet):
 class DriverViewSet(ModelViewSet):
     queryset=Driver.objects.all()
     serializer_class=DriverSerializer
+    authentication_classes=[JWTAuthentication]
+    permission_classes=[IsAuthenticated]
+    
+    
     
     
     @action(detail=False,methods=['get'])
