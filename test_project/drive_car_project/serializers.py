@@ -2,6 +2,7 @@ from .models import Car,Driver
 
 from rest_framework import serializers
 
+from django.contrib.auth.models import User
 
 
 class CarSerializer(serializers.ModelSerializer):
@@ -9,6 +10,13 @@ class CarSerializer(serializers.ModelSerializer):
         model=Car
         fields='__all__'
         
+        
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=User
+        fields='__all__'
         
         
         
